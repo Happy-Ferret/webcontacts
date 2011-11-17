@@ -68,16 +68,16 @@ footer {
 }
 </style>
 </head>
-<body onload="AB.init()">
+<body onload="AddressBook.init()">
 
 <script type="application/javascript;version=1.8" src="contacts.js"></script>
 <script type="application/javascript;version=1.8" src="addressbook.js"></script>
 
 <div id="topRow">
   <label for="filter">Search address book:</label>
-  <input type="search" id="filter" onkeyup="return AB.onFilterKeyUp(event);">
-  <button id="clearFilterButton" onclick="return AB.clearFilter();">X</button>
-  <button id="newContactButton" onclick="return AB.newContactForm();">
+  <input type="search" id="filter" onkeyup="AddressBook.onFilterKeyUp(event);">
+  <button id="clearFilterButton" onclick="AddressBook.clearFilter();">X</button>
+  <button id="newContactButton" onclick="AddressBook.newContactForm();">
     Create new contact
   </button>
 </div>
@@ -85,7 +85,7 @@ footer {
 <div id="mainBox">
   <!-- XXX semantically I'm using this like a <ul> right now -->
   <div id="leftSide">
-  <table id="contactList" onclick="return AB.onContactListClick(event);">
+  <table id="contactList" onclick="AddressBook.onContactListClick(event);">
     <tbody>
       <!-- Dynamically created content goes here. -->
     </tbody>
@@ -137,8 +137,8 @@ footer {
     <pre id="view.note"></pre>
 
     <div>
-      <button onclick="return AB.deleteContact();">Delete</button>
-      <button onclick="return AB.editContact();">Edit</button>
+      <button onclick="AddressBook.deleteContact();">Delete</button>
+      <button onclick="AddressBook.editContact();">Edit</button>
     </div>
   </section>
 
@@ -152,31 +152,31 @@ footer {
     </fieldset>
     <fieldset name="phoneNumbers" id="edit.fieldset.phoneNumbers">
       <!-- Dynamically created content goes here. -->
-      <button id="edit.phoneNumbers.add" onclick="return AB.newSimpleListEntry('phoneNumbers');">+</button>
+      <button id="edit.phoneNumbers.add" onclick="AddressBook.newSimpleListEntry('phoneNumbers');">+</button>
     </fieldset>
     <fieldset name="emails" id="edit.fieldset.emails">
       <!-- Dynamically created content goes here. -->
-      <button id="edit.emails.add" onclick="return AB.newSimpleListEntry('emails');">+</button>
+      <button id="edit.emails.add" onclick="AddressBook.newSimpleListEntry('emails');">+</button>
     </fieldset>
     <fieldset name="ims" id="edit.fieldset.ims">
       <!-- Dynamically created content goes here. -->
-      <button id="edit.ims.add" onclick="return AB.newSimpleListEntry('ims');">+</button>
+      <button id="edit.ims.add" onclick="AddressBook.newSimpleListEntry('ims');">+</button>
     </fieldset>
     <fieldset name="addresses" id="edit.fieldset.addresses">
       <!-- TODO this can't be a simple list entry -->
       <!-- Dynamically created content goes here. -->
-      <button id="edit.addresses.add" onclick="return AB.newSimpleListEntry('addresses');">+</button>
+      <button id="edit.addresses.add" onclick="AddressBook.newSimpleListEntry('addresses');">+</button>
     </fieldset>
     <fieldset name="urls" id="edit.fieldset.urls">
       <!-- Dynamically created content goes here. -->
-      <button id="edit.urls.add" onclick="return AB.newSimpleListEntry('urls');">+</button>
+      <button id="edit.urls.add" onclick="AddressBook.newSimpleListEntry('urls');">+</button>
     </fieldset>
     <!-- XXX gecko doesn't support type="date" yet :( -->
     <input type="date" id="edit.birthday" placeholder="Birthday">
     <textarea id="edit.note" placeholder="Notes"></textarea>
     <div>
-      <button onclick="return AB.cancelContactEditForm();">Cancel</button>
-      <button onclick="return AB.saveContact();">Save</button>
+      <button onclick="AddressBook.cancelContactEditForm();">Cancel</button>
+      <button onclick="AddressBook.saveContact();">Save</button>
     </div>
     <p id="errorMsg"></p>
   </form>
