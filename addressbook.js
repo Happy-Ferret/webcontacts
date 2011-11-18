@@ -80,8 +80,9 @@ let AddressBook = {
 
     let table = document.getElementById('contactList');
     let oldRow = table.querySelector('.selected');
-    if (oldRow)
+    if (oldRow) {
       oldRow.classList.remove('selected');
+    }
 
     let tr = document.createElement('tr');
     tr.id = 'newContactRow';
@@ -111,19 +112,21 @@ let AddressBook = {
     document.getElementById('edit.birthday').value = contact.birthday || '';
     document.getElementById('edit.note').value = contact.note || '';
 
-    let self = this;
-    SIMPLE_LIST_FIELDS.forEach(function(field) {
+    SIMPLE_LIST_FIELDS.forEach((function(field) {
       let value = contact[field];
-      if (!value)
+      if (!value) {
         value = contact[field] = [];
+      }
 
-      for (let i = 0; i < value.length; i++)
-        self.newSimpleListEntry(field, i);
+      for (let i = 0; i < value.length; i++) {
+        this.newSimpleListEntry(field, i);
+      }
 
       // Just create an empty row.
-      if (!value.length)
-        self.newSimpleListEntry(field);
-    });
+      if (!value.length) {
+        this.newSimpleListEntry(field);
+      }
+    }).bind(this));
 
     document.getElementById('contactEdit').style.display = 'block';
     document.getElementById('contactView').style.display = 'none';
@@ -161,8 +164,10 @@ let AddressBook = {
       let option = document.createElement('option');
       option.value = fieldType;
       option.textContent = FIELD_TYPES[fieldType];
-      if (fieldType == entry.type)
+
+      if (fieldType == entry.type) {
         option.selected = 'selected';
+      }
       select.appendChild(option);
     }
     div.appendChild(select);
@@ -227,9 +232,10 @@ let AddressBook = {
     document.getElementById('errorMsg').textContent = '';
 
     let table = document.getElementById('contactList');
-    let row = table.querySelector('#newContactRow');
-    if (row)
-      row.parentNode.removeChild(row);
+    let newRow = table.querySelector('#newContactRow');
+    if (newRow) {
+      newRow.parentNode.removeChild(newRow);
+    }
 
     let form = document.getElementById('contactEdit');
     form.style.display = 'none';
@@ -268,13 +274,15 @@ let AddressBook = {
     let fields = form.elements;
     for (let i = 0; i < fields.length; i++) {
       let field = fields[i];
-      if (['fieldset', 'button'].indexOf(field.localName) != -1)
+      if (['fieldset', 'button'].indexOf(field.localName) != -1) {
         continue;
+      }
 
       let property = field.id.slice('edit.'.length);
       console.log(field.localName + '#' + field.id, '->', field.value);
-      if (field.value)
+      if (field.value) {
         setAttrByPath(record, property, field.value);
+      }
 
       field.disabled = true;
     }
@@ -282,8 +290,9 @@ let AddressBook = {
     // Filter invalid entries from list.
     SIMPLE_LIST_FIELDS.forEach(function(field) {
       let list = record[field];
-      if (!list)
+      if (!list) {
         return;
+      }
 
       record[field] = list.filter(function(entry) {
         return entry.value;
@@ -304,8 +313,6 @@ let AddressBook = {
                                           this.displayErrorMsg,
                                           record);
     }
-
-    return false;
   },
 
   /**
@@ -336,16 +343,15 @@ let AddressBook = {
    *        ID of the record that's to be selected
    */
   updateContactListing: function updateContactListing(selectedId) {
-    let self = this;
     window.navigator.mozContacts.find(['id', 'displayName'],
-                                      function(contacts) {
-      self.displayContactList(contacts);
+                                      (function(contacts) {
+      this.displayContactList(contacts);
       if (selectedId) {
         let row = document.getElementById(selectedId);
         row.classList.add('selected');
-        self.updateContactDetails(selectedId);
+        this.updateContactDetails(selectedId);
       }
-    });
+    }).bind(this));
   },
 
   /**
@@ -391,8 +397,9 @@ let AddressBook = {
 
     let table = document.getElementById('contactList');
     let oldRow = table.querySelector('.selected');
-    if (oldRow)
+    if (oldRow) {
       oldRow.classList.remove('selected');
+    }
 
     row.classList.add('selected');
     let contactId = row.id;
@@ -418,8 +425,9 @@ let AddressBook = {
 
     console.log('Should get one contact:', contacts.length);
     let contact = this.currentContact = contacts[0];
-    if (!contact)
+    if (!contact) {
       return;
+    }
 
     document.getElementById('view.displayName').textContent =
       contact.displayName;
@@ -427,18 +435,21 @@ let AddressBook = {
     let tbody = document.createElement('tbody');
     SIMPLE_LIST_FIELDS.forEach(function(field) {
       let table = document.getElementById('view.' + field);
-      while (table.tBodies.length)
+      while (table.tBodies.length) {
         table.removeChild(table.tBodies[0]);
+      }
 
       let tbody = document.createElement('tbody');
 
       let value = contact[field];
-      if (!value || !value.length)
+      if (!value || !value.length) {
         return;
+      }
 
       value.forEach(function(entry) {
-        if (!entry.value)
+        if (!entry.value) {
           return;
+        }
 
         let tr = document.createElement('tr');
         let typeLabel = document.createElement('th');
@@ -472,13 +483,13 @@ let AddressBook = {
     let row = table.querySelector('.selected');
     if (!row) {
       console.log('Could not find any selected element.');
-      return false;
+      return;
     }
+
     let contactId = row.id;
     window.navigator.mozContacts.delete(this.contactDeleted.bind(this),
                                         this.displayErrorMsg.bind(this),
                                         contactId);
-    return false;
   },
 
   /**
