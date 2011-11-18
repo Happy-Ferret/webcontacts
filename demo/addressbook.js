@@ -128,8 +128,8 @@ let AddressBook = {
       }
     }).bind(this));
 
-    document.getElementById('contactEdit').style.display = 'block';
-    document.getElementById('contactView').style.display = 'none';
+    document.getElementById('contactEdit').removeAttribute('hidden');
+    document.getElementById('contactView').setAttribute('hidden', 'true');
   },
 
   /**
@@ -238,7 +238,7 @@ let AddressBook = {
     }
 
     let form = document.getElementById('contactEdit');
-    form.style.display = 'none';
+    form.setAttribute('hidden', 'true');
 
     // Remove all dynamically created elements from the form.
     let simpleListEntries = form.querySelectorAll('.simpleListEntry');
@@ -472,7 +472,7 @@ let AddressBook = {
     }
     document.getElementById('view.note').textContent = contact.note || '';
 
-    document.getElementById('contactView').style.display = 'block';
+    document.getElementById('contactView').removeAttribute('hidden');
   },
 
   /**
@@ -499,7 +499,7 @@ let AddressBook = {
     let table = document.getElementById('contactList');
     let row = table.querySelector('.selected');
     row.parentNode.removeChild(row);
-    document.getElementById('contactView').style.display = 'none';
+    document.getElementById('contactView').setAttribute('hidden', 'true');
   },
 
   onFilterKeyUp: function onFilterKeyUp(event) {
